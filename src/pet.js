@@ -17,12 +17,12 @@ Pet.prototype = {
   get isAlive() {
     return this.age < 30 && this.hunger < 10 && this.fitness >= 0;
   }
-}
+};
 
 Pet.prototype.growUp = function () {
   if (!this.isAlive) {
     throw new Error(PET_DEAD_ERROR);
-  }
+  };
 
   this.age += 1;
   this.hunger += 5;
@@ -32,7 +32,7 @@ Pet.prototype.growUp = function () {
 Pet.prototype.walk = function () {
   if (!this.isAlive) {
     throw new Error(PET_DEAD_ERROR);
-  }
+  };
 
   if (this.fitness <= CRITICAL_FITNESS) {
     this.fitness += 4;
@@ -77,7 +77,7 @@ Pet.prototype.checkUp = function () {
 Pet.prototype.haveBaby = function (child) {
   if (!this.isAlive) {
     throw new Error(PET_DEAD_ERROR);
-  }
+  };
 
   this.children.push(new Pet(child));
 
@@ -86,11 +86,9 @@ Pet.prototype.haveBaby = function (child) {
 Pet.prototype.adoptChild = function (child) {
   if (!this.isAlive) {
     throw new Error(PET_DEAD_ERROR);
-  }
+  };
 
   this.children.push(child);
 };
-
-
 
 module.exports = Pet;

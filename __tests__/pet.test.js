@@ -1,7 +1,6 @@
 const Pet = require('../src/pet');
 
 describe('constructor', () => {
-  let pet;
 
   beforeEach(() => {
     pet = new Pet('Gerald');
@@ -35,18 +34,21 @@ describe('growUp', () => {
   });
 
   it('increments the age by 1', () => {
+    pet.age = 0;
     pet.growUp();
 
     expect(pet.age).toEqual(1);
   });
 
   it('increments the hunger by 5', () => {
+    pet.hunger = 0;
     pet.growUp();
 
     expect(pet.hunger).toEqual(5);
   });
 
   it('decreases the fitness by 3', () => {
+    pet.fitness = 10;
     pet.growUp();
 
     expect(pet.fitness).toEqual(7);
@@ -104,13 +106,13 @@ describe('feed', () => {
 });
 
 describe('checkUp', () => {
-  
+
   beforeEach(() => {
     pet = new Pet('Gerald');
   });
 
   it('returns a message if fitness level is 3 or less', () => {
-   
+
     pet.fitness = 3;
     pet.checkUp();
 
@@ -183,7 +185,7 @@ describe('checkUp', () => {
 });
 
 describe('isAlive', () => {
-  
+
   beforeEach(() => {
     pet = new Pet('Gerald');
   });
@@ -258,7 +260,7 @@ describe('adoptChild', () => {
 
     let parent = new Pet('Henry');
     let child = new Pet('Marina');
-    
+
     parent.adoptChild(child);
     child.hunger = 6;
     parent.children[0].feed()
@@ -279,7 +281,7 @@ describe('adoptChild', () => {
     let parent = new Pet('Henry');
     let child = new Pet('Marina');
     parent.age = 30;
-  
+
     expect(() => parent.adoptChild(child)).toThrow('Your pet is no longer alive :(');
   });
 });
