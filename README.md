@@ -3,17 +3,17 @@ A Javascript virtual pet project, created as part of the Manchester Codes Javasc
 
 ## Features 
 
-You can name your pet:
-const pet = new Pet("Gerald")
+* You can name your pet:
+`const pet = new Pet("Gerald")`
 
-Feed your pet:
-pet.feed()
+* Feed your pet:
+`pet.feed()`
 
-Walk your pet:
-pet.walk()
+* Walk your pet:
+`pet.walk()`
 
-Give your pet a check up:
-pet.checkUp()
+ * Give your pet a check up:
+`pet.checkUp()`
 
 
 
