@@ -1,58 +1,50 @@
 const Pet = require('../src/pet');
 
-describe('constructor', () => {
-  let pet;
-  
-  beforeEach(() => {
-    pet = new Pet('Gerald');
-  });
+let pet;
 
+beforeEach(() => {
+  pet = new Pet('Gerald');
+});
+
+describe('constructor', () => {
   it('returns an object', () => {
-    expect(new Pet('Gerald')).toBeInstanceOf(Object);
+    expect(pet).toBeInstanceOf(Pet);
   });
 
   it('sets the name property', () => {
-    expect(pet.name).toEqual('Gerald');
+    expect(pet.name).toBe('Gerald');
   });
 
   it('has an initial age of 0', () => {
-    expect(pet.age).toEqual(0);
-  });
+    expect(pet.age).toBe(0);
+  }); 
 
   it('has an initial hunger of 0', () => {
-    expect(pet.hunger).toEqual(0);
+    expect(pet.hunger).toBe(0);
   });
 
   it('has an initial fitness of 10', () => {
-    expect(pet.fitness).toEqual(10);
+    expect(pet.fitness).toBe(10);
   });
 });
 
 describe('growUp', () => {
-
-  beforeEach(() => {
-    pet = new Pet('Gerald');
-  });
-
   it('increments the age by 1', () => {
-    pet.age = 0;
     pet.growUp();
 
-    expect(pet.age).toEqual(1);
+    expect(pet.age).toBe(1);
   });
 
   it('increments the hunger by 5', () => {
-    pet.hunger = 0;
     pet.growUp();
 
-    expect(pet.hunger).toEqual(5);
+    expect(pet.hunger).toBe(5);
   });
 
   it('decreases the fitness by 3', () => {
-    pet.fitness = 10;
     pet.growUp();
-
-    expect(pet.fitness).toEqual(7);
+    
+    expect(pet.fitness).toBe(7);
   });
 
   it('throws an error message if the pet is no longer alive', () => {
@@ -63,55 +55,41 @@ describe('growUp', () => {
 
 describe('walk', () => {
 
-  beforeEach(() => {
-    pet = new Pet('Gerald');
-  });
-
   it('increments the fitness by 4, to a maximum of 10', () => {
     pet.fitness = 8;
     pet.walk();
 
-    expect(pet.fitness).toEqual(10);
+    expect(pet.fitness).toBe(10);
   });
 
   it('throws an error message if the pet is no longer alive', () => {
-    pet.age = 30;
+    pet.fitness = -1;
     expect(() => pet.walk()).toThrow('Your pet is no longer alive :(');
   });
 });
 
 describe('feed', () => {
-
-  beforeEach(() => {
-    pet = new Pet('Gerald');
-  });
-
   it('decreases the hunger level by 3', () => {
     pet.hunger = 6;
     pet.feed();
 
-    expect(pet.hunger).toEqual(3);
+    expect(pet.hunger).toBe(3);
   });
 
   it('decreases the hunger level to a minimum of 0', () => {
     pet.hunger = 2;
     pet.feed();
 
-    expect(pet.hunger).toEqual(0);
+    expect(pet.hunger).toBe(0);
   });
 
   it('throws an error message if the pet is no longer alive', () => {
-    pet.age = 30;
+    pet.hunger = 11;
     expect(() => pet.feed()).toThrow('Your pet is no longer alive :(');
   });
 });
 
 describe('checkUp', () => {
-
-  beforeEach(() => {
-    pet = new Pet('Gerald');
-  });
-
   it('returns a message if fitness level is 3 or less', () => {
 
     pet.fitness = 3;
@@ -128,12 +106,6 @@ describe('checkUp', () => {
     pet.checkUp();
 
     expect(pet.checkUp()).toBe('I need a walk');
-
-    pet.fitness = 0;
-    pet.checkUp();
-
-    expect(pet.checkUp()).toBe('I need a walk');
-
   });
 
   it('returns a message if hunger level is 5 or more', () => {
@@ -186,11 +158,6 @@ describe('checkUp', () => {
 });
 
 describe('isAlive', () => {
-
-  beforeEach(() => {
-    pet = new Pet('Gerald');
-  });
-
   it('returns false if fitness is 0 or less, AND hunger is 10 or more, AND age is 30 or more', () => {
 
     pet.fitness = 0;
@@ -206,7 +173,7 @@ describe('isAlive', () => {
     expect(pet.isAlive).toBe(false);
   });
 
-  it('returns false if fitness is 0 or less, AND hunger is 10 or more, AND age is 30 or more', () => {
+  it('returns true if fitness is 0 or less, AND hunger is 10 or more, AND age is 30 or more', () => {
 
     pet.fitness = 1;
     pet.hunger = 9;
@@ -218,13 +185,11 @@ describe('isAlive', () => {
 
 describe('haveBaby', () => {
   it('creates a child object as a property of the parent', () => {
-    let parent = new Pet('Dave');
+    expect(pet.children).toEqual([]);
 
-    expect(parent.children).toEqual([]);
+    pet.haveBaby('Amelia');
 
-    parent.haveBaby('Amelia');
-
-    expect(parent.children).toEqual([
+    expect(pet.children).toEqual([
       {
         name: 'Amelia',
         age: 0,
@@ -238,15 +203,12 @@ describe('haveBaby', () => {
 
 describe('adoptChild', () => {
   it('adds a child object to an array, which is the parent.children property', () => {
-
-    let parent = new Pet('Henry');
-
-    expect(parent.children).toEqual([]);
+    expect(pet.children).toEqual([]);
 
     let child = new Pet('Marina');
-    parent.adoptChild(child);
+    pet.adoptChild(child);
 
-    expect(parent.children).toEqual([
+    expect(pet.children).toEqual([
       {
         name: 'Marina',
         age: 0,
@@ -257,17 +219,15 @@ describe('adoptChild', () => {
     ])
   });
 
-  it('accesses the parent.children property to feed the child pet', () => {
-
-    let parent = new Pet('Henry');
+  it('accesses the pet.children property to feed the child pet', () => {
     let child = new Pet('Marina');
 
-    parent.adoptChild(child);
+    pet.adoptChild(child);
     child.hunger = 6;
-    parent.children[0].feed()
+    pet.children[0].feed()
 
-    expect(child.hunger).toEqual(3);
-    expect(parent.children).toEqual([
+    expect(child.hunger).toBe(3);
+    expect(pet.children).toEqual([
       {
         name: 'Marina',
         age: 0,
@@ -279,11 +239,10 @@ describe('adoptChild', () => {
   });
 
   it('throws an error message if the parent pet is no longer alive', () => {
-    let parent = new Pet('Henry');
     let child = new Pet('Marina');
-    parent.age = 30;
+    pet.age = 30;
 
-    expect(() => parent.adoptChild(child)).toThrow('Your pet is no longer alive :(');
+    expect(() => pet.adoptChild(child)).toThrow('Your pet is no longer alive :(');
   });
 });
 
